@@ -219,10 +219,38 @@ def parse_additional_columns(spec_str):
         return [pair.split('=') for pair in spec_str.split(';')]
 
 
-def _get_fids(ref_rttm_dir, sys_rttm_dir):
+def _check_collar(ref_rttm, collar):
+    """ Check if the cumulated duration of the reference transcripted speech
+    is greater than two times the collar.
+
+    Parameters
+    ----------
+    ref_rttm : str
+        path to the reference transcription (.rttm) that needs to be analyzed.
+
+    Returns
+    -------
+        No result. This function raises an error if the total duration
+        is lower than two times the collar.
+    """
+    pass_collar_test = False
+    with open(ref_rttm) as fn:
+        for line in fn:
+            _, _, _, _, t_dur, _, _, _, _ = line.split('\t')
+            t_dur = float(t_dur)
+            if t_dur > 2.0 * collar:
+                pass_collar_test = True
+
+    if not pass_collar_test:
+        raise ValueError(
+            "The transcription {} has no line whose duration is greater than two times the collar.\n".format(ref_rttm) +
+            "You should remove this file or set the collar to a lower value.\n")
+
+def _get_fids(ref_rttm_dir, sys_rttm_dir, collar):
     ref_bns = []
     for fn in glob.glob(os.path.join(ref_rttm_dir, '*.rttm')):
         if not os.stat(fn).st_size == 0:
+            _check_collar(fn, collar)
             ref_bns.append(os.path.basename(fn))
     sys_bns = []
     for fn in glob.glob(os.path.join(sys_rttm_dir, '*.rttm')):
@@ -275,7 +303,7 @@ if __name__ == '__main__':
         with open(args.scpf, 'rb') as f:
             fids = [line.strip() for line in f]
     else:
-        fids = _get_fids(args.ref_rttm_dir, args.sys_rttm_dir)
+        fids = _get_fids(args.ref_rttm_dir, args.sys_rttm_dir, args.collar)
     rows = score_recordings(
         fids, args.ref_rttm_dir, args.sys_rttm_dir, args.collar,
         args.ignore_overlaps, args.step, args.n_jobs)
