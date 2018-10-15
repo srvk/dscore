@@ -184,7 +184,7 @@ def rttms_to_frames(ref_rttm_fn, sys_rttm_fn, step=0.010):
     return ref_labels, sys_labels
 
 
-def score(ref_rttm_fn, sys_rttm_fn, collar=0.250, ignore_overlaps=True,
+def score(ref_rttm_fn, sys_rttm_fn, collar=0.0, ignore_overlaps=True,
           step=0.010, nats=False):
     """Score diarization.
 
@@ -200,7 +200,7 @@ def score(ref_rttm_fn, sys_rttm_fn, collar=0.250, ignore_overlaps=True,
         Size of forgiveness collar in seconds. Diarization output will not be
         evaluated within +/- ``collar`` seconds of reference speaker
         boundaries. Only relevant for computing DER.
-        (Default: 0.250)
+        (Default: 0.0)
 
     ignore_overlaps : bool, optional
         If True, ignore regions in the reference diarization in which more

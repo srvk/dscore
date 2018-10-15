@@ -238,7 +238,7 @@ SCRIPT_DIR = os.path.abspath(os.path.dirname(__file__))
 MDEVAL_BIN = os.path.join(SCRIPT_DIR, 'md-eval-22.pl')
 DER_REO = re.compile(r'(?<=OVERALL SPEAKER DIARIZATION ERROR = )[\d.]+')
 
-def der(ref_rttm_fn, sys_rttm_fn, collar=0.250, ignore_overlaps=True):
+def der(ref_rttm_fn, sys_rttm_fn, collar=0.0, ignore_overlaps=True):
     """Return overall diarization error rate as computed using NIST tool.
 
     **NOTE** that unlike other functions in ``scorelib.metrics``, ``der``
@@ -259,7 +259,7 @@ def der(ref_rttm_fn, sys_rttm_fn, collar=0.250, ignore_overlaps=True):
         Size of forgiveness collar in seconds. Diarization output will not be
         evaluated within +/- ``collar`` seconds of reference speaker
         boundaries.
-        (Default: 0.250)
+        (Default: 0.0)
 
     ignore_overlaps : bool, optional
         If True, ignore regions in the reference diarization in which more

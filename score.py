@@ -22,9 +22,10 @@ which will calculate and report the following metrics:
 - normalized mutual information (NMI)
 
 Diarization error rate (DER) is scored using the NIST ``md-eval.pl`` tool
-using a default collar size of 250 ms and ignoring regions that contain
-overlapping speech in the reference RTTM. If desired, this behavior can be
-altered using the ``--collar`` and ``--score_overlaps`` flags. For instance
+using a default collar size of 0 ms. If the value is not zero, it's ignoring
+regions that contain overlapping speech in the reference RTTM. If desired,
+this behavior can be altered using the ``--collar`` and ``--score_overlaps`` flags.
+For instance :
 
     python --collar 0.100 --score_overlaps score.py ref.rttm sys.rttm
 
@@ -56,7 +57,7 @@ if __name__ == '__main__':
     parser.add_argument(
         'sys_rttm', nargs=None, help='system RTTM')
     parser.add_argument(
-        '--collar', nargs=None, default=0.250, type=float, metavar='FLOAT',
+        '--collar', nargs=None, default=0.0, type=float, metavar='FLOAT',
         help='collar size in seconds for DER computaton '
              '(Default: %(default)s)')
     parser.add_argument(

@@ -46,9 +46,10 @@ would result in two additional columns, "Corpus" and "NClusters", being output
 with the values "AMI" and 4 respectively in each row.
 
 Diarization error rate (DER) is scored using the NIST ``md-eval.pl`` tool
-using a default collar size of 250 ms and ignoring regions that contain
-overlapping speech in the reference RTTM. If desired, this behavior can be
-altered using the ``--collar`` and ``--score_overlaps`` flags. For instance
+using a default collar size of 0.0 ms. If the value is not zero, it's ignoring
+regions that contain overlapping speech in the reference RTTM. If desired,
+this behavior can be altered using the ``--collar`` and ``--score_overlaps`` flags.
+For instance :
 
     python --collar 0.100 --score_overlaps score.py ref.rttm sys.rttm
 
@@ -111,7 +112,7 @@ def score_recordings(fids, ref_rttm_dir, sys_rttm_dir, collar, ignore_overlaps,
         Size of forgiveness collar in seconds. Diarization output will not be
         evaluated within +/- ``collar`` seconds of reference speaker
         boundaries. Only relevant for computing DER.
-        (Default: 0.250)
+        (Default: 0.0)
 
     ignore_overlaps : bool, optional
         If True, ignore regions in the reference diarization in which more
@@ -275,7 +276,7 @@ if __name__ == '__main__':
         '-S', nargs=None, default=None, metavar='FILE', dest='scpf',
         help='set script file (Default: None)')
     parser.add_argument(
-        '--collar', nargs=None, default=0.250, type=float, metavar='FLOAT',
+        '--collar', nargs=None, default=0.0, type=float, metavar='FLOAT',
         help='collar size in seconds for DER computaton '
              '(Default: %(default)s)')
     parser.add_argument(
