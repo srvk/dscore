@@ -237,7 +237,7 @@ def _check_collar(ref_rttm, collar):
     pass_collar_test = False
     with open(ref_rttm) as fn:
         for line in fn:
-            row = line.split('\t')
+            row = line.split()
             t_dur = row[4]
             t_dur = float(t_dur)
             if t_dur > 2.0 * collar:
