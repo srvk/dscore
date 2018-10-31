@@ -86,7 +86,7 @@ which will calculate and report the following metrics:
 
 In this VM, as a simple selftest:
 
-    ~/anaconda/bin/python score.py Phil_Crane.rttm Phil_Crane_sys.rttm
+    ~/anaconda/bin/python score.py test_ref/Phil_Crane.rttm test_sys/Phil_Crane.rttm
 
 should produce the output:
 
@@ -100,6 +100,12 @@ GKT(sys, ref): 0.96
 H(ref|sys): 0.10
 MI: 1.68
 NMI: 0.79
+```
+
+And the simple `python score_batch.py test.df test_ref test_sys` should produce an output file `test.df` containing:
+```
+DER	B3Precision	B3Recall	B3F1	TauRefSys	TauSysRef	CE	MI	NMI
+Phil_Crane	42.3	0.975590490012551	0.6723380205755907	0.796061934401888	0.5992237728375416	0.9637703404560899	0.10387135721168145	1.6782303644465815	0.7931818752730179
 ```
 
  For additional details consult the docstring of ``score.py``.
